@@ -1,0 +1,121 @@
+name: Figma sync
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+    inputs:
+      export:
+        description: Icon names to export even if unchanged, separated by spaces
+        required: false
+        default: ""
+      force:
+        description: Sync even if the newest named version was synced before
+        type: boolean
+        default: false
+
+concurrency:
+  group: figma-sync
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  SYNC_BRANCH: figma-sync
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+
+      - name: Find the version that waits for review
+        id: pending
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git fetch --depth=1 origin "$SYNC_BRANCH" 2>/dev/null &&
+             manifest=$(git show FETCH_HEAD:figma/manifest.json); then
+            echo "commit=$(git rev-parse FETCH_HEAD)" >>"$GITHUB_OUTPUT"
+            if jq -e '.incomplete != null' <<<"$manifest" >/dev/null; then
+              # Keep the SVGs and fingerprints already exported on the pending branch.
+              if ! git diff --quiet FETCH_HEAD -- figma/manifest.json; then
+                git switch --detach FETCH_HEAD
+              fi
+            else
+              pr=$(gh pr list --head "$SYNC_BRANCH" --base main --state open \
+                --json number,isCrossRepository --jq 'map(select(.isCrossRepository | not)) | .[0].number // empty')
+              if [[ -n $pr ]]; then
+                echo "version=$(jq -r '.version.id // empty' <<<"$manifest")" >>"$GITHUB_OUTPUT"
+              fi
+            fi
+          fi
+
+      - name: Export icons from Figma
+        id: sync
+        env:
+          FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
+          EXPORT_NAMES: ${{ inputs.export }}
+          FORCE: ${{ inputs.force }}
+          PENDING_VERSION: ${{ steps.pending.outputs.version }}
+        run: |
+          arguments=(--report "$RUNNER_TEMP/report.md")
+          [[ -n $PENDING_VERSION ]] && arguments+=(--pending-version "$PENDING_VERSION")
+          [[ $FORCE == true ]] && arguments+=(--force)
+          [[ -n $EXPORT_NAMES ]] && arguments+=(--export $EXPORT_NAMES)
+          python3 figma/sync.py "${arguments[@]}"
+
+      - name: Open or update the pull request
+        if: steps.sync.outputs.changed == 'true' || steps.pending.outputs.commit != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          LABEL: ${{ steps.sync.outputs.label }}
+          CHANGED: ${{ steps.sync.outputs.changed }}
+          PENDING_COMMIT: ${{ steps.pending.outputs.commit }}
+        run: |
+          if [[ $CHANGED == true ]]; then
+            git add -A
+            if git diff --cached --quiet; then
+              echo "The sync did not change any file."
+              CHANGED=false
+            else
+              git config user.name "github-actions[bot]"
+              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+              git switch -c "$SYNC_BRANCH"
+              git commit -s -m "Sync icons from Figma version: $LABEL"
+              if [[ -n $PENDING_COMMIT ]] && git diff --quiet "$PENDING_COMMIT" HEAD; then
+                echo "The $SYNC_BRANCH branch already has these changes."
+              else
+                git push --force origin "$SYNC_BRANCH"
+              fi
+            fi
+          fi
+          if [[ $CHANGED == false && -z $PENDING_COMMIT ]]; then
+            exit 0
+          fi
+          pr=$(gh pr list --head "$SYNC_BRANCH" --base main --state open \
+            --json number,isCrossRepository --jq 'map(select(.isCrossRepository | not)) | .[0].number // empty')
+          if [[ $CHANGED == false ]]; then
+            if [[ -n $pr ]]; then
+              exit 0
+            fi
+            merged=$(gh pr list --head "$SYNC_BRANCH" --base main --state merged --json headRefOid,isCrossRepository)
+            if jq -e --arg commit "$PENDING_COMMIT" \
+              'any(.[]; (.isCrossRepository | not) and .headRefOid == $commit)' <<<"$merged" >/dev/null; then
+              exit 0
+            fi
+            manifest=$(git show "$PENDING_COMMIT:figma/manifest.json")
+            LABEL=$(jq -r '.incomplete.version.label // .version.label' <<<"$manifest")
+            if [[ ! -f $RUNNER_TEMP/report.md ]]; then
+              printf 'Figma version **%s**. See the pending branch for the exported changes.\n' "$LABEL" >"$RUNNER_TEMP/report.md"
+            fi
+          fi
+          if [[ -n $pr ]]; then
+            gh pr edit "$pr" --title "Sync icons from Figma: $LABEL" --body-file "$RUNNER_TEMP/report.md"
+          else
+            gh pr create --head "$SYNC_BRANCH" --base main --title "Sync icons from Figma: $LABEL" --body-file "$RUNNER_TEMP/report.md"
+          fi
