@@ -30,11 +30,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: main
 
       - name: Find the version that waits for review
         id: pending
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          if git fetch --depth=1 origin "$SYNC_BRANCH" 2>/dev/null; then
+          open_pull_requests=$(gh pr list --head "$SYNC_BRANCH" --state open --json number --jq length)
+          if ((open_pull_requests > 0)) && git fetch --depth=1 origin "$SYNC_BRANCH"; then
             echo "version=$(git show FETCH_HEAD:figma/manifest.json | jq -r '.version.id // empty')" >>"$GITHUB_OUTPUT"
           fi
 
@@ -62,8 +67,16 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git switch -c "$SYNC_BRANCH"
           git add -A
+          if git diff --cached --quiet; then
+            echo "The sync did not change any file."
+            exit 0
+          fi
           git commit -s -m "Sync icons from Figma version: $LABEL"
-          git push --force origin "$SYNC_BRANCH"
+          if git fetch --depth=1 origin "$SYNC_BRANCH" && git diff --quiet FETCH_HEAD HEAD; then
+            echo "The $SYNC_BRANCH branch already has these changes."
+          else
+            git push --force origin "$SYNC_BRANCH"
+          fi
           if gh pr view "$SYNC_BRANCH" --json state -q .state 2>/dev/null | grep -q OPEN; then
             gh pr edit "$SYNC_BRANCH" --title "Sync icons from Figma: $LABEL" --body-file "$RUNNER_TEMP/report.md"
           else

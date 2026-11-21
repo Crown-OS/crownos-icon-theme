@@ -122,6 +122,7 @@ def is_safe_file_name(name):
 
 
 def plan_icons(config, documents, manifest, forced_names):
+    is_initial_import = manifest["version"] is None
     seen_paths = {}
     icons = []
     for grid in config["grids"]:
@@ -145,8 +146,9 @@ def plan_icons(config, documents, manifest, forced_names):
                 icon.status = "unchanged"
             elif path in manifest["icons"] or path in manifest["rejected"]:
                 icon.status = "changed"
-            elif (REPOSITORY_ROOT / path).exists() or (
-                "fallback" in grid and (REPOSITORY_ROOT / grid["fallback"] / f"{name}.svg").exists()
+            elif is_initial_import and (
+                (REPOSITORY_ROOT / path).exists()
+                or ("fallback" in grid and (REPOSITORY_ROOT / grid["fallback"] / f"{name}.svg").exists())
             ):
                 icon.status = "baseline"
             else:
@@ -190,6 +192,8 @@ def export_svgs(file_key, version_id, icons):
 
 
 def updated_manifest(version, icons, previous_manifest):
+    if any(icon.status == "export-failed" for icon in icons):
+        version = previous_manifest["version"]
     tracked = dict(previous_manifest["icons"])
     rejected = dict(previous_manifest["rejected"])
     for icon in icons:
@@ -250,9 +254,12 @@ def main():
         set_github_output(changed="false")
         return
 
-    grid_ids = sorted({grid["node"] for grid in config["grids"]})
-    response = figma_get(f"/files/{config['file_key']}/nodes", {"ids": ",".join(grid_ids), "version": version["id"]})
-    documents = {node_id: entry["document"] for node_id, entry in response["nodes"].items()}
+    documents = {}
+    for grid_id in sorted({grid["node"] for grid in config["grids"]}):
+        response = figma_get(
+            f"/files/{config['file_key']}/nodes", {"ids": grid_id, "version": version["id"], "geometry": "paths"}
+        )
+        documents[grid_id] = response["nodes"][grid_id]["document"]
 
     icons = plan_icons(config, documents, manifest, set(arguments.export))
     to_export = [icon for icon in icons if icon.status in ("new", "changed", "forced")]
