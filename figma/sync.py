@@ -124,6 +124,9 @@ def is_safe_file_name(name):
 def plan_icons(config, documents, manifest, forced_names):
     seen_paths = {}
     icons = []
+    incomplete = manifest.get("incomplete")
+    retry_paths = set(incomplete["failed"]) if incomplete else set()
+    initial_import = manifest["version"] is None and incomplete is None
     for grid in config["grids"]:
         for grid_cell in documents[grid["node"]]["children"]:
             name = grid_cell["name"]
@@ -141,12 +144,14 @@ def plan_icons(config, documents, manifest, forced_names):
                 icon.status = "raster"
             elif name in forced_names:
                 icon.status = "forced"
-            elif manifest["icons"].get(path) == icon.fingerprint:
+            elif path not in retry_paths and manifest["icons"].get(path) == icon.fingerprint:
                 icon.status = "unchanged"
             elif path in manifest["icons"] or path in manifest["rejected"]:
                 icon.status = "changed"
+            elif path in retry_paths:
+                icon.status = "new"
             elif (REPOSITORY_ROOT / path).exists() or (
-                "fallback" in grid and (REPOSITORY_ROOT / grid["fallback"] / f"{name}.svg").exists()
+                initial_import and "fallback" in grid and (REPOSITORY_ROOT / grid["fallback"] / f"{name}.svg").exists()
             ):
                 icon.status = "baseline"
             else:
@@ -174,7 +179,11 @@ def export_svgs(file_key, version_id, icons):
         url = image_urls.get(icon.node_id)
         if not url:
             return icon, "export-failed"
-        svg = download(url)
+        try:
+            svg = download(url)
+        except (urllib.error.URLError, TimeoutError) as error:
+            print(f"Could not download SVG for node {icon.node_id}: {type(error).__name__}", file=sys.stderr)
+            return icon, "export-failed"
         if b"<svg" not in svg[:512]:
             return icon, "export-failed"
         if b"<image" in svg:
@@ -198,7 +207,15 @@ def updated_manifest(version, icons, previous_manifest):
             rejected.pop(icon.path, None)
         elif icon.status == "raster":
             rejected[icon.path] = icon.fingerprint
-    return {"version": version, "icons": dict(sorted(tracked.items())), "rejected": dict(sorted(rejected.items()))}
+    failed = sorted(icon.path for icon in icons if icon.status == "export-failed")
+    result = {
+        "version": previous_manifest["version"] if failed else version,
+        "icons": dict(sorted(tracked.items())),
+        "rejected": dict(sorted(rejected.items())),
+    }
+    if failed:
+        result["incomplete"] = {"version": version, "failed": failed}
+    return result
 
 
 def report(version, icons, missing_paths):
@@ -245,13 +262,16 @@ def main():
         set_github_output(changed="false")
         return
     synced_versions = {(manifest["version"] or {}).get("id"), arguments.pending_version}
-    if version["id"] in synced_versions and not (arguments.force or arguments.export):
+    if version["id"] in synced_versions and not (manifest.get("incomplete") or arguments.force or arguments.export):
         print(f"Named version {version['label']!r} is already synced.")
         set_github_output(changed="false")
         return
 
     grid_ids = sorted({grid["node"] for grid in config["grids"]})
-    response = figma_get(f"/files/{config['file_key']}/nodes", {"ids": ",".join(grid_ids), "version": version["id"]})
+    response = figma_get(
+        f"/files/{config['file_key']}/nodes",
+        {"ids": ",".join(grid_ids), "version": version["id"], "geometry": "paths"},
+    )
     documents = {node_id: entry["document"] for node_id, entry in response["nodes"].items()}
 
     icons = plan_icons(config, documents, manifest, set(arguments.export))
