@@ -35,6 +35,8 @@ jobs:
 
       - name: Find the version that waits for review
         id: pending
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           if git fetch --depth=1 origin "$SYNC_BRANCH" 2>/dev/null &&
              manifest=$(git show FETCH_HEAD:figma/manifest.json); then
@@ -45,7 +47,11 @@ jobs:
                 git switch --detach FETCH_HEAD
               fi
             else
-              echo "version=$(jq -r '.version.id // empty' <<<"$manifest")" >>"$GITHUB_OUTPUT"
+              pr=$(gh pr list --head "$SYNC_BRANCH" --base main --state open \
+                --json number,isCrossRepository --jq 'map(select(.isCrossRepository | not)) | .[0].number // empty')
+              if [[ -n $pr ]]; then
+                echo "version=$(jq -r '.version.id // empty' <<<"$manifest")" >>"$GITHUB_OUTPUT"
+              fi
             fi
           fi
 
@@ -74,13 +80,18 @@ jobs:
           if [[ $CHANGED == true ]]; then
             git add -A
             if git diff --cached --quiet; then
+              echo "The sync did not change any file."
               CHANGED=false
             else
               git config user.name "github-actions[bot]"
               git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
               git switch -c "$SYNC_BRANCH"
               git commit -s -m "Sync icons from Figma version: $LABEL"
-              git push --force origin "$SYNC_BRANCH"
+              if [[ -n $PENDING_COMMIT ]] && git diff --quiet "$PENDING_COMMIT" HEAD; then
+                echo "The $SYNC_BRANCH branch already has these changes."
+              else
+                git push --force origin "$SYNC_BRANCH"
+              fi
             fi
           fi
           if [[ $CHANGED == false && -z $PENDING_COMMIT ]]; then

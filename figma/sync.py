@@ -148,10 +148,9 @@ def plan_icons(config, documents, manifest, forced_names):
                 icon.status = "unchanged"
             elif path in manifest["icons"] or path in manifest["rejected"]:
                 icon.status = "changed"
-            elif path in retry_paths:
-                icon.status = "new"
-            elif (REPOSITORY_ROOT / path).exists() or (
-                initial_import and "fallback" in grid and (REPOSITORY_ROOT / grid["fallback"] / f"{name}.svg").exists()
+            elif initial_import and (
+                (REPOSITORY_ROOT / path).exists()
+                or ("fallback" in grid and (REPOSITORY_ROOT / grid["fallback"] / f"{name}.svg").exists())
             ):
                 icon.status = "baseline"
             else:
@@ -267,12 +266,12 @@ def main():
         set_github_output(changed="false")
         return
 
-    grid_ids = sorted({grid["node"] for grid in config["grids"]})
-    response = figma_get(
-        f"/files/{config['file_key']}/nodes",
-        {"ids": ",".join(grid_ids), "version": version["id"], "geometry": "paths"},
-    )
-    documents = {node_id: entry["document"] for node_id, entry in response["nodes"].items()}
+    documents = {}
+    for grid_id in sorted({grid["node"] for grid in config["grids"]}):
+        response = figma_get(
+            f"/files/{config['file_key']}/nodes", {"ids": grid_id, "version": version["id"], "geometry": "paths"}
+        )
+        documents[grid_id] = response["nodes"][grid_id]["document"]
 
     icons = plan_icons(config, documents, manifest, set(arguments.export))
     to_export = [icon for icon in icons if icon.status in ("new", "changed", "forced")]
