@@ -53,6 +53,21 @@ use_dark_trash() {
     done
 }
 
+install_dark_overrides() {
+    local dir file theme=$dest/$dark
+    for dir in "$root"/dark/*/*/; do
+        [[ -d $dir ]] || continue
+        dir=${dir#"$root/dark/"}
+        dir=${dir%/}
+        mkdir -p -- "$theme/$dir"
+        for file in "$root/src/$dir"/*; do
+            ln -s -- "../../../$light/$dir/${file##*/}" "$theme/$dir/${file##*/}"
+        done
+        cp -f --remove-destination -- "$root/dark/$dir"/* "$theme/$dir"
+        cp -r -- "$root/links/$dir/." "$theme/$dir"
+    done
+}
+
 link_light_dirs() {
     local dir
     for dir in "$root"/src/*/*/; do
@@ -77,6 +92,7 @@ install_dark() {
     for dir in "${dark_dirs[@]}"; do
         cp -r -- "$root/links/$dir/." "$theme/$dir"
     done
+    install_dark_overrides
     link_light_dirs
     write_index "$dark"
 }
