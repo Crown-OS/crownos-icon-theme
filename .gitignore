@@ -1,2 +1,6 @@
 
 *.xz
+
+# round_icons.py output and Python caches.
+/rounded/
+__pycache__/

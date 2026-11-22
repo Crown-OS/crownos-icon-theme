@@ -1,0 +1,83 @@
+{
+  "google-calendar": {
+    "zoom": 1.65
+  },
+  "goa-account-pocket": {
+    "zoom": 1.18
+  },
+  "goa-account-fedora": {
+    "tint": "original"
+  },
+  "grub-customizer": {
+    "dark": "dim"
+  },
+  "gsequencer": {
+    "zoom": 0.78,
+    "dy": -6
+  },
+  "half-life2-deathmatch": {
+    "zoom": 0.8
+  },
+  "half-life2-lost-coast": {
+    "zoom": 0.8
+  },
+  "half-life-2-episode-1": {
+    "zoom": 0.8
+  },
+  "half-life-2-episode-2": {
+    "zoom": 0.8
+  },
+  "hearts-of-iron": {
+    "zoom": 0.86
+  },
+  "hearts-of-iron-3": {
+    "zoom": 0.78
+  },
+  "homebank": {
+    "zoom": 1.0
+  },
+  "htop": {
+    "zoom": 1.08
+  },
+  "inkscape": {
+    "dark": "dim"
+  },
+  "input-tablet": {
+    "dark": "dim"
+  },
+  "internet-mail": {
+    "tint": "original"
+  },
+  "io.github.diegoivan.pdf_metadata_editor": {
+    "zoom": 0.86,
+    "dy": 2.5
+  },
+  "io.github.dvlv.boxbuddyrs": {
+    "dark": "dim"
+  },
+  "io.missioncenter.MissionCenter": {
+    "dark": "dim"
+  },
+  "io.gitlab.gregorni.Letterpress": {
+    "zoom": 0.86
+  },
+  "karere": {
+    "dark": "dim"
+  },
+  "gnome-twofactorauth": {
+    "tint": "original"
+  },
+  "io.github.giantpinkrobots.varia": {
+    "mode": "crop",
+    "zoom": 0.95
+  },
+  "java": {
+    "dark": "dim"
+  },
+  "insomnia": {
+    "threshold": [
+      60,
+      110
+    ]
+  }
+}

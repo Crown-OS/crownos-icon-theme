@@ -1,0 +1,176 @@
+{
+ "taxi": {
+  "tint": "plate"
+ },
+ "texstudio": {
+  "tint": "light"
+ },
+ "text-editor": {
+  "tint": "original"
+ },
+ "thisweekinmylife": {
+  "zoom": 1.08
+ },
+ "tomboy": {
+  "tint": "light"
+ },
+ "tubefeeder": {
+  "tint": "original"
+ },
+ "typora": {
+  "tint": "light",
+  "threshold": [
+   40,
+   90
+  ]
+ },
+ "unturned": {
+  "dark": "dim"
+ },
+ "vmware-player": {
+  "tint": "plate"
+ },
+ "tauonmb": {
+  "dark": "glyph"
+ },
+ "transporter": {
+  "dark": "glyph"
+ },
+ "variety": {
+  "dark": "glyph"
+ },
+ "teamviewer": {
+  "zoom": 1.08
+ },
+ "vk-messenger": {
+  "zoom": 1.0
+ },
+ "workspace-switcher": {
+  "zoom": 1.08
+ },
+ "wine-uninstaller": {
+  "mode": "fit",
+  "plate": "#3585ff",
+  "dark": "dim",
+  "zoom": 1.2
+ },
+ "wine-winecfg": {
+  "mode": "fit",
+  "plate": "#3585ff",
+  "dark": "dim",
+  "zoom": 1.2
+ },
+ "wine-winetricks": {
+  "mode": "fit",
+  "plate": "#3585ff",
+  "dark": "dim",
+  "zoom": 1.2
+ },
+ "wps-office2023-etmain": {
+  "threshold": [
+   50,
+   90
+  ]
+ },
+ "wps-office2023-pdfmain": {
+  "threshold": [
+   50,
+   90
+  ]
+ },
+ "wps-office2023-wppmain": {
+  "threshold": [
+   70,
+   120
+  ]
+ },
+ "wps-office2023-wpsmain": {
+  "threshold": [
+   50,
+   90
+  ]
+ },
+ "xournal": {
+  "tint": "light"
+ },
+ "yast-autoyast": {
+  "dark": "dim"
+ },
+ "yast-update": {
+  "dark": "dim"
+ },
+ "yast-software-group": {
+  "threshold": [
+   30,
+   70
+  ],
+  "dark": "dim"
+ },
+ "yubikey-piv-manager": {
+  "mode": "fit",
+  "plate": "#6eee95",
+  "zoom": 1.2,
+  "dark": "dim"
+ },
+ "workspace-switcher-left-bottom": {
+  "zoom": 1.08
+ },
+ "workspace-switcher-right-bottom": {
+  "zoom": 1.08
+ },
+ "workspace-switcher-right-top": {
+  "zoom": 1.08
+ },
+ "vidcutter": {
+  "mode": "fit",
+  "plate": "#6f86f7",
+  "dark": "dim",
+  "zoom": 1.2
+ },
+ "web-google-maps": {
+  "zoom": 0.97
+ },
+ "xdman": {
+  "mode": "fit",
+  "plate": "#4f5a65",
+  "dark": "dim",
+  "zoom": 1.2
+ },
+ "xfce4-fsguard-plugin-warning": {
+  "mode": "fit",
+  "plate": "#2c2c2e",
+  "zoom": 1.2,
+  "dark": "keep"
+ },
+ "youtube-dl": {
+  "mode": "fit",
+  "plate": "#f0373d",
+  "dark": "dim",
+  "zoom": 1.2
+ },
+ "yubikey-neo-manager": {
+  "mode": "fit",
+  "plate": "#6eee95",
+  "zoom": 1.2,
+  "dark": "dim"
+ },
+ "utilities-system-monitor": {
+  "zoom": 1.06
+ },
+ "thermal-monitor": {
+  "zoom": 1.06
+ },
+ "upscayl": {
+  "zoom": 1.06,
+  "dark": "dim"
+ },
+ "tetzle": {
+  "zoom": 1.06
+ },
+ "yubikey-personalization-gui": {
+  "mode": "fit",
+  "plate": "#6eee95",
+  "zoom": 1.2,
+  "dark": "dim"
+ }
+}

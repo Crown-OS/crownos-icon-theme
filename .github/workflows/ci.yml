@@ -1,0 +1,34 @@
+# Shellchecks install.sh (logic in Crown-OS/.github) and installs both themes
+# into a scratch prefix the way crownos-base's PKGBUILD does, failing on any
+# dangling symlink in the result.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  shell:
+    uses: Crown-OS/.github/.github/workflows/shell.yml@main
+
+  install:
+    name: install / links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install gtk-update-icon-cache
+        run: sudo apt-get update && sudo apt-get install -y gtk-update-icon-cache
+
+      - name: Install the themes
+        run: ./install.sh --dest "$RUNNER_TEMP/icons"
+
+      - name: Dangling symlinks
+        run: |
+          dangling=$(find "$RUNNER_TEMP/icons" -xtype l)
+          [ -z "$dangling" ] || { printf '%s\n' "$dangling"; exit 1; }

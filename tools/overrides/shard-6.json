@@ -1,0 +1,118 @@
+{
+ "printer": {
+  "dark": "dim"
+ },
+ "proton-mail": {
+  "zoom": 0.82
+ },
+ "qcad": {
+  "zoom": 0.86,
+  "tint": "original"
+ },
+ "qq": {
+  "dark": "dim"
+ },
+ "quickDocs": {
+  "tint": "original"
+ },
+ "quodlibet": {
+  "tint": "original"
+ },
+ "resonance": {
+  "dark": "keep"
+ },
+ "ricochlime": {
+  "tint": "original"
+ },
+ "rustrover": {
+  "zoom": 0.72
+ },
+ "screenrecorder": {
+  "threshold": [
+   90,
+   140
+  ]
+ },
+ "securecrt": {
+  "mode": "fit",
+  "plate": "#3d3d3d",
+  "dark": "keep",
+  "zoom": 1.2
+ },
+ "se.sjoerd.Graphs": {
+  "mode": "fit",
+  "plate": "#f7f6f2",
+  "zoom": 1.2
+ },
+ "remote-desktop": {
+  "mode": "fit",
+  "plate": "#3d3d3d",
+  "dark": "keep",
+  "zoom": 1.2
+ },
+ "pulseview": {
+  "zoom": 0.8,
+  "threshold": [
+   30,
+   70
+  ]
+ },
+ "shotcut": {
+  "dark": "dim"
+ },
+ "sieveeditor": {
+  "dark": "dim"
+ },
+ "sitra": {
+  "zoom": 0.86
+ },
+ "slack": {
+  "threshold": [
+   30,
+   70
+  ]
+ },
+ "smplayer": {
+  "dark": "dim"
+ },
+ "software-properties": {
+  "mode": "fit",
+  "plate": "#2293f4",
+  "dark": "dim",
+  "zoom": 1.2
+ },
+ "softwarecenter-debian": {
+  "threshold": [
+   30,
+   70
+  ]
+ },
+ "softwarecenter-ubuntu": {
+  "threshold": [
+   50,
+   100
+  ]
+ },
+ "supertux": {
+  "dark": "dim"
+ },
+ "supertuxkart": {
+  "dark": "dim"
+ },
+ "system-software-install": {
+  "mode": "fit",
+  "plate": "#2293f4",
+  "zoom": 1.2,
+  "dark": "dim"
+ },
+ "system-software-update": {
+  "mode": "fit",
+  "plate": "#2293f4",
+  "zoom": 1.2,
+  "dark": "dim"
+ },
+ "synology-assistant": {
+  "zoom": 0.92,
+  "tint": "original"
+ }
+}

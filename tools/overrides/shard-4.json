@@ -1,0 +1,68 @@
+{
+ "kompare": {
+  "tint": "original"
+ },
+ "lockpicker": {
+  "zoom": 1.08
+ },
+ "letters": {
+  "dark": "dim"
+ },
+ "okular": {
+  "threshold": [
+   60,
+   110
+  ]
+ },
+ "marker": {
+  "threshold": [
+   70,
+   120
+  ]
+ },
+ "miktex-console": {
+  "dark": "dim"
+ },
+ "losslesscut": {
+  "dark": "dim"
+ },
+ "mattermost": {
+  "tint": "original"
+ },
+ "mgba": {
+  "dark": "dim"
+ },
+ "mockoon": {
+  "dark": "dim"
+ },
+ "ms-powerpoint": {
+  "dark": "dim"
+ },
+ "ms-word": {
+  "dark": "dim"
+ },
+ "metro-2033": {
+  "zoom": 0.9
+ },
+ "metro-exodus": {
+  "zoom": 0.9
+ },
+ "metro-last-light": {
+  "zoom": 0.9
+ },
+ "occ": {
+  "zoom": 0.9
+ },
+ "libreoffice-draw": {
+  "mode": "crop",
+  "zoom": 0.86
+ },
+ "microsoft-edge-beta": {
+  "dark": "glyph",
+  "tint": "original"
+ },
+ "microsoft-edge-dev": {
+  "dark": "glyph",
+  "tint": "original"
+ }
+}

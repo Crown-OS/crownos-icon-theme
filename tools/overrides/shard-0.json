@@ -1,0 +1,162 @@
+{
+ "2048": {
+  "zoom": 0.86,
+  "threshold": [
+   30,
+   70
+  ]
+ },
+ "4kvideodownloader": {
+  "tint": "plate"
+ },
+ "Bazaar": {
+  "mode": "fit",
+  "plate": "#ff6a2a",
+  "zoom": 1.2,
+  "dark": "dim"
+ },
+ "Brief": {
+  "zoom": 1.06
+ },
+ "Clapgrep": {
+  "zoom": 1.06,
+  "dark": "dim"
+ },
+ "DV_Uninstall": {
+  "mode": "fit",
+  "plate": "#1d2836",
+  "dark": "keep",
+  "zoom": 1.1
+ },
+ "Flacon": {
+  "tint": "original"
+ },
+ "GPU.Screen.Recorder": {
+  "zoom": 1.06
+ },
+ "Gittyup": {
+  "zoom": 1.04
+ },
+ "HTTrack": {
+  "zoom": 1.06
+ },
+ "HTTrack-download": {
+  "mode": "fit",
+  "plate": "#8a87cf",
+  "dark": "dim",
+  "zoom": 1.2
+ },
+ "Ignition": {
+  "zoom": 1.06
+ },
+ "KsefInvoice": {
+  "zoom": 1.04
+ },
+ "Halftone": {
+  "zoom": 1.06
+ },
+ "Bobby": {
+  "zoom": 1.06
+ },
+ "DV_Panels": {
+  "zoom": 1.06,
+  "dark": "keep"
+ },
+ "Gauge": {
+  "zoom": 1.06,
+  "dark": "keep"
+ },
+ "Myrlyn": {
+  "tint": "original"
+ },
+ "Luminance": {
+  "zoom": 1.06
+ },
+ "TextCompare": {
+  "zoom": 1.06
+ },
+ "Wattage": {
+  "dark": "dim"
+ },
+ "access": {
+  "tint": "plate",
+  "threshold": [
+   40,
+   90
+  ]
+ },
+ "accessories-dictionary": {
+  "mode": "fit",
+  "plate": "#b3262a",
+  "zoom": 1.2,
+  "dark": "dim"
+ },
+ "accessories-document-viewer": {
+  "zoom": 1.06
+ },
+ "accessories-media-converter": {
+  "mode": "fit",
+  "plate": "#f4f2ee",
+  "zoom": 1.2,
+  "dark": "dim"
+ },
+ "accessories-text-editor": {
+  "tint": "light"
+ },
+ "accessories-system-cleaner": {
+  "mode": "fit",
+  "plate": "#dfe3e8",
+  "zoom": 1.2,
+  "dark": "dim"
+ },
+ "acroread": {
+  "zoom": 1.04,
+  "dark": "keep"
+ },
+ "addressbook": {
+  "zoom": 1.0
+ },
+ "alacritty": {
+  "zoom": 1.1,
+  "dark": "keep"
+ },
+ "alacritty-simple": {
+  "zoom": 1.1,
+  "dark": "glyph",
+  "tint": "original"
+ },
+ "among-us": {
+  "zoom": 1.0
+ },
+ "android-file-transfer": {
+  "zoom": 1.0
+ },
+ "appimagekit-gravit-designer": {
+  "zoom": 1.15
+ },
+ "aseprite": {
+  "zoom": 1.08
+ },
+ "ausweisapp": {
+  "zoom": 1.15,
+  "dark": "glyph",
+  "tint": "original"
+ },
+ "black-mesa": {
+  "tint": "plate"
+ },
+ "bleachbit": {
+  "zoom": 1.08,
+  "dark": "dim"
+ },
+ "brave": {
+  "dark": "dim"
+ },
+ "brave-dev": {
+  "dark": "glyph",
+  "tint": "original"
+ },
+ "Draft": {
+  "zoom": 1.06
+ }
+}

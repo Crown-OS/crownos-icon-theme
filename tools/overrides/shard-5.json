@@ -1,0 +1,80 @@
+{
+ "org.gnome.Terminal.Preferences": {
+  "mode": "fit",
+  "plate": "#3d3d3d",
+  "zoom": 1.2,
+  "dark": "keep"
+ },
+ "org.ubuntubudgie.quickchar": {
+  "mode": "fit",
+  "plate": "#f2f2f2",
+  "zoom": 1.2,
+  "dark": "dim"
+ },
+ "org.gnome.Loupe": {
+  "mode": "fit",
+  "plate": "#f6f5f4",
+  "zoom": 1.2,
+  "dark": "dim"
+ },
+ "preferences-desktop-filetype-association": {
+  "mode": "fit",
+  "plate": "#f4f4f4",
+  "zoom": 1.2,
+  "dark": "dim"
+ },
+ "petris-icon": {
+  "zoom": 1.12
+ },
+ "preferences-desktop-cursors": {
+  "zoom": 1.1,
+  "dark": "dim"
+ },
+ "preferences-system-linux": {
+  "dark": "dim"
+ },
+ "preferences-system-network-server": {
+  "dark": "keep"
+ },
+ "preferences-releasenotes": {
+  "tint": "original"
+ },
+ "org.gnome.Software.Generic": {
+  "threshold": [
+   70,
+   120
+  ],
+  "tint": "original"
+ },
+ "org.gnome.design.Shaper": {
+  "dark": "dim"
+ },
+ "page.tesk.Refine": {
+  "dark": "glyph",
+  "threshold": [
+   50,
+   100
+  ]
+ },
+ "preferences-desktop-activities": {
+  "mode": "fit",
+  "plate": "#141414",
+  "zoom": 1.2,
+  "dark": "keep"
+ },
+ "org.gnome.gitlab.YaLTeR.VideoTrimmer": {
+  "mode": "fit",
+  "plate": "#f6d32d",
+  "zoom": 1.1,
+  "dark": "dim"
+ },
+ "popcorntime": {
+  "dark": "dim"
+ },
+ "org.gustavoperedo.FontDownloader": {
+  "dark": "dim"
+ },
+ "org.gtk.PrintEditor4": {
+  "dark": "dim"
+ }
+}

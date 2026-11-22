@@ -1,0 +1,91 @@
+{
+ "cheese": {
+  "dark": "dim"
+ },
+ "cisco-anyconnect": {
+  "dark": "dim"
+ },
+ "cisco-vpn": {
+  "tint": "light"
+ },
+ "com.belmoussaoui.Decoder": {
+  "dark": "dim"
+ },
+ "com.github.alexhuntley.Plots": {
+  "dark": "dim"
+ },
+ "com.github.gi_lom.dialect": {
+  "threshold": [
+   30,
+   70
+  ]
+ },
+ "com.github.philip_scott.notes-up": {
+  "dark": "dim"
+ },
+ "com.github.xournalpp.xournalpp": {
+  "tint": "light"
+ },
+ "com.mitchellh.ghostty": {
+  "mode": "fit",
+  "plate": "#0a0a0c",
+  "zoom": 1.2,
+  "dark": "keep"
+ },
+ "com.rtosta.zapzap": {
+  "threshold": [
+   70,
+   120
+  ]
+ },
+ "com.theappgineer.community_remote": {
+  "tint": "light"
+ },
+ "communicator": {
+  "zoom": 1.0
+ },
+ "cs": {
+  "dark": "glyph",
+  "tint": "original"
+ },
+ "cscz": {
+  "dark": "glyph",
+  "tint": "original"
+ },
+ "css": {
+  "dark": "glyph",
+  "tint": "original"
+ },
+ "design": {
+  "dark": "dim"
+ },
+ "desktop-environment-gnome": {
+  "mode": "crop"
+ },
+ "distributor-logo-antergos": {
+  "tint": "light"
+ },
+ "com.chatterino.chatterino": {
+  "zoom": 1.05
+ },
+ "calligragemini": {
+  "dark": "dim"
+ },
+ "csgo": {
+  "dark": "dim"
+ },
+ "dbeaver": {
+  "dark": "dim"
+ },
+ "dev.Cogitri.Health": {
+  "tint": "original",
+  "threshold": [
+   30,
+   70
+  ]
+ },
+ "brave-nightly": {
+  "dark": "glyph",
+  "tint": "original"
+ }
+}
