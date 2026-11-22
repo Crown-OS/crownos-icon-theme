@@ -6,8 +6,7 @@ The app icons are designed in Figma, on the
 [Icons page of CrownOS-Design](https://www.figma.com/design/A5U3QqLmbl7DnTkYuHVSy3/CrownOS-Design?node-id=188-237).
 The `Figma sync` workflow exports them to `src/apps/scalable` and
 `dark/apps/scalable` when a new named version is saved in Figma.
-The [CrownOS workspace guide](https://github.com/Crown-OS/crownos/blob/main/CLAUDE.md#icon-theme-in-figma)
-tells you how to edit them.
+[AGENTS.md](AGENTS.md) tells you how to edit them.
 
 ## Install
 
