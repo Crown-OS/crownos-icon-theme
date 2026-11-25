@@ -32,6 +32,7 @@ EXPORT_BATCH_SIZE = 200
 DOWNLOAD_WORKERS = 8
 MAX_ATTEMPTS = 6
 VERSION_PAGES_TO_SEARCH = 10
+REPORT_PATHS_PER_SECTION = 150
 POSITION_KEYS = ("absoluteBoundingBox", "absoluteRenderBounds")
 
 
@@ -223,13 +224,18 @@ def report(version, icons, missing_paths):
     ]
     lines = [f"Figma version **{version['label']}** ({version['created_at']}, id `{version['id']}`).", ""]
     for title, status in sections:
-        paths = sorted(icon.path for icon in icons if icon.status == status)
-        if paths:
-            lines += [f"<details><summary>{title}: {len(paths)}</summary>", "", *[f"- `{path}`" for path in paths], "", "</details>", ""]
-    if missing_paths:
-        lines += [f"<details><summary>In the repository but no longer in Figma: {len(missing_paths)}</summary>", ""]
-        lines += [f"- `{path}`" for path in missing_paths] + ["", "</details>", ""]
+        lines += report_section(title, sorted(icon.path for icon in icons if icon.status == status))
+    lines += report_section("In the repository but no longer in Figma", missing_paths)
     return "\n".join(lines)
+
+
+def report_section(title, paths):
+    if not paths:
+        return []
+    listed = [f"- `{path}`" for path in paths[:REPORT_PATHS_PER_SECTION]]
+    if len(paths) > REPORT_PATHS_PER_SECTION:
+        listed.append(f"- and {len(paths) - REPORT_PATHS_PER_SECTION} more")
+    return [f"<details><summary>{title}: {len(paths)}</summary>", "", *listed, "", "</details>", ""]
 
 
 def set_github_output(**values):
