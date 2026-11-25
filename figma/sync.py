@@ -126,7 +126,6 @@ def plan_icons(config, documents, manifest, forced_names):
     icons = []
     incomplete = manifest.get("incomplete")
     retry_paths = set(incomplete["failed"]) if incomplete else set()
-    initial_import = manifest["version"] is None and incomplete is None
     for grid in config["grids"]:
         for grid_cell in documents[grid["node"]]["children"]:
             name = grid_cell["name"]
@@ -146,13 +145,8 @@ def plan_icons(config, documents, manifest, forced_names):
                 icon.status = "forced"
             elif path not in retry_paths and manifest["icons"].get(path) == icon.fingerprint:
                 icon.status = "unchanged"
-            elif path in manifest["icons"] or path in manifest["rejected"]:
+            elif path in manifest["icons"] or path in manifest["rejected"] or (REPOSITORY_ROOT / path).exists():
                 icon.status = "changed"
-            elif initial_import and (
-                (REPOSITORY_ROOT / path).exists()
-                or ("fallback" in grid and (REPOSITORY_ROOT / grid["fallback"] / f"{name}.svg").exists())
-            ):
-                icon.status = "baseline"
             else:
                 icon.status = "new"
     return icons
@@ -201,7 +195,7 @@ def updated_manifest(version, icons, previous_manifest):
     tracked = dict(previous_manifest["icons"])
     rejected = dict(previous_manifest["rejected"])
     for icon in icons:
-        if icon.status in ("new", "changed", "forced", "baseline", "unchanged"):
+        if icon.status in ("new", "changed", "forced", "unchanged"):
             tracked[icon.path] = icon.fingerprint
             rejected.pop(icon.path, None)
         elif icon.status == "raster":
